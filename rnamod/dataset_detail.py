@@ -1,5 +1,10 @@
 from .utils import *
 
+COLORS = {
+   'stops': '239,154,154',
+   'errors': '144,202,249',
+}
+
 class DatasetDetail:
    def __init__(self, check_dataset=False):
       self.check_dataset = check_dataset
@@ -27,3 +32,9 @@ class DatasetDetail:
       self.errors_C_relative = relative_of(self.errors_C, self.coverage)
       self.errors_G_relative = relative_of(self.errors_G, self.coverage)
       self.coverage_for_stops_relative = relative_of(self.stops, self.coverage_for_stops)
+
+   def rgba_coverage_for_stops_relative(self):
+      return 'rgba({},{})'.format(COLORS['stops'], self.coverage_for_stops_relative/100)
+
+   def rgba_errors_relative(self):
+      return 'rgba({},{})'.format(COLORS['errors'], self.errors_relative/100)

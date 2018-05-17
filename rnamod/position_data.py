@@ -1,8 +1,10 @@
+import collections
+
 class PositionData:
    def __init__(self, base, position):
       self.base = base
       self.position = position
-      self.datasets = {}
+      self.datasets = collections.OrderedDict()
       self.pattern_matches = []
 
    def add_pattern_match(self, pattern):

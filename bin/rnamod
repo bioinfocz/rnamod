@@ -28,4 +28,4 @@ print(args)
 mod = rnamod.mod.Mod(args.fasta, args.pattern)
 mod.run(args.experiments, args.checks)
 
-repl()
+mod.to_html('outputs')

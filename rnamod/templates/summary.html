@@ -1,0 +1,83 @@
+<div class="summary">
+   <h2>{{ heading }}</h2>
+
+   <table class="data">
+      <thead>
+         <th></th>
+         {% for dataset_name in dataset_names %}
+            <th>{{ dataset_name }}</th>
+         {% endfor %}
+      </thead>
+      <tbody>
+         {% for position in positions %}
+            <tr class="data__row data__row--stops">
+               <td rowspan="2" class="data__position">
+                  {{ position.position }} ({{position.base}})
+               </td>
+
+               {% for name, dataset in position.datasets.items() %}
+                  <td style="background: {{ dataset.rgba_coverage_for_stops_relative }}">
+                     {{ dataset.coverage_for_stops_relative }}
+                  </td>
+                  {% endfor %}
+               </tr>
+
+               <tr class="data__row data__row--errors">
+                  {% for name, dataset in position.datasets.items() %}
+                  <td style="background: {{ dataset.rgba_errors_relative }}">
+                     {{ dataset.errors_relative }}
+                  </td>
+               {% endfor %}
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
+
+<style>
+   @page {
+      size: auto;
+      margin: 0mm;
+      size: A1;
+   }
+
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+   }
+
+   table.data {
+      border-spacing: 0;
+      /*font-family: serif;*/
+      font-family: monospace;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      max-width: 1024px;
+   }
+
+   .data td {
+      padding: 0 5px 0 10px;
+      vertical-align: top;
+   }
+
+   .data thead tr {
+      background: #f5f5f5
+   }
+   .data thead td {
+      padding: 5px 10px;
+   }
+   .data td.data__position {
+      text-align: right;
+      padding-right: 5px;
+      background: #f5f5f5;
+      width: 88px;
+   }
+   .data tr.data__row--stops td {
+      border-top: 1px solid #e3e3e3;
+   }
+   .data td {}
+   .data td {}
+   .data td {}
+   .data td {}
+</style>
