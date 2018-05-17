@@ -4,38 +4,41 @@
    <table class="data">
       <thead>
          <th></th>
+         <th>Patterns</th>
          {% for dataset_name in dataset_names %}
             <th>{{ dataset_name }}</th>
          {% endfor %}
          <th></th>
       </thead>
       <tbody>
-         {% for position in positions %}
+         {% for position in positions if position.is_significant() %}
             <tr class="data__row data__row--stops">
                <td rowspan="2" class="data__position">
                   {{ position.position }} ({{position.base}})
                </td>
 
                {% for name, dataset in position.datasets.items() %}
-                  <td style="background: {{ dataset.rgba_stops_coverage_relative }}">
+                  <td style="background: {{ dataset.rgba_stops_coverage_relative() }}">
                      {{ dataset.stops_coverage_relative }}
                   </td>
                {% endfor %}
 
                <td>
-                  {{ position.pvalue_stops }}
+                  {{ position.statistic_stops | round(2) }} |
+                  {{ position.pvalue_stops | round(2) }}
                </td>
             </tr>
 
             <tr class="data__row data__row--errors">
                {% for name, dataset in position.datasets.items() %}
-                  <td style="background: {{ dataset.rgba_errors_relative }}">
+                  <td style="background: {{ dataset.rgba_errors_relative() }}">
                      {{ dataset.errors_relative }}
                   </td>
                {% endfor %}
 
                <td>
-                  {{ position.pvalue_errors }}
+                  {{ position.statistic_errors | round(2) }} |
+                  {{ position.pvalue_errors | round(2) }}
                </td>
             </tr>
          {% endfor %}
