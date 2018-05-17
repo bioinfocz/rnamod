@@ -22,5 +22,5 @@ class FullDataset:
       self.sd_coverage = int(np.std(coverages))
       self.average_errors = int(np.mean(errors))
       self.sd_errors = int(np.std(errors))
-      self.relative_errors = 100*errors/coverages
-      self.relative_A_errors = 100*errors_A/coverages
+      self.relative_errors = 100*sum(errors)/sum(coverages)
+      self.relative_A_errors = 100*sum(errors_A)/sum(coverages)
