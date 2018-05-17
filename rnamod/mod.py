@@ -9,6 +9,8 @@ except NameError:
 
 import jinja2
 
+import rnamod.dataset_detail
+
 from .utils import *
 from .pattern import Pattern
 from .sequence_data import SequenceData
@@ -204,5 +206,7 @@ class Mod:
                heading=rname,
                dataset_names=sequence_data.dataset_names,
                positions=sequence_data.positions,
+               patterns=self.patterns,
+               dataset_colors=rnamod.dataset_detail.COLORS,
             ))
 

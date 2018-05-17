@@ -1,10 +1,25 @@
 <div class="summary">
    <h2>{{ heading }}</h2>
 
+   <div class="summary__legend">
+      <p>
+         <span style="background: rgb({{ dataset_colors['stops'] }})"></span> Stops (coverage drops)
+      </p>
+
+      <p>
+         <span style="background: rgb({{ dataset_colors['errors'] }})"></span> Errors (base mismatch)
+      </p>
+
+      {% for pattern in patterns %}
+         <p>
+            <span style="background: rgb({{ pattern.color }})"></span> {{ pattern.pattern }}
+         </p>
+      {% endfor %}
+   </div>
+
    <table class="data">
       <thead>
          <th></th>
-         <th>Patterns</th>
          {% for dataset_name in dataset_names %}
             <th>{{ dataset_name }}</th>
          {% endfor %}
@@ -14,7 +29,17 @@
          {% for position in positions if position.is_significant() %}
             <tr class="data__row data__row--stops">
                <td rowspan="2" class="data__position">
-                  {{ position.position }} ({{position.base}})
+                  {% if position.patterns_matched|length > 0 %}
+                     <div class="data__patterns">
+                        {% for pattern in position.patterns_matched %}
+                           <div class="data__pattern" style="background: rgba({{ pattern.color }}, 1)">&nbsp;</div>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
+
+                  <div class="data__position-info">
+                     {{ position.position }} ({{position.base}})
+                  </div>
                </td>
 
                {% for name, dataset in position.datasets.items() %}
@@ -24,7 +49,6 @@
                {% endfor %}
 
                <td>
-                  {{ position.statistic_stops | round(2) }} |
                   {{ position.pvalue_stops | round(2) }}
                </td>
             </tr>
@@ -37,7 +61,6 @@
                {% endfor %}
 
                <td>
-                  {{ position.statistic_errors | round(2) }} |
                   {{ position.pvalue_errors | round(2) }}
                </td>
             </tr>
@@ -81,9 +104,10 @@
    }
    .data td.data__position {
       text-align: right;
-      padding-right: 5px;
+      padding: 0;
       background: #f5f5f5;
       width: 88px;
+      position: relative;
    }
    .data tr.data__row--stops td {
       border-top: 1px solid #e3e3e3;
@@ -92,4 +116,40 @@
    .data td {}
    .data td {}
    .data td {}
+
+   .data__patterns {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+   }
+
+   .data__pattern {
+      width: 100%;
+      height: 100%;
+   }
+
+   .data__position-info {
+      z-index: 10;
+      position: absolute;
+      width: 100%;
+      text-align: right;
+      padding-right: 5px;
+   }
+
+   .summary__legend {
+      line-height: 20px;
+      margin-left: 5px;
+   }
+
+   .summary__legend span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      vertical-align: baseline;
+      margin-right: 2px;
+   }
 </style>
