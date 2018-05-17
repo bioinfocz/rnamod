@@ -78,7 +78,36 @@
          {% endfor %}
       </thead>
       <tbody>
-
+         <tr>
+            <td>Total reads</td>
+            {% for name, dataset in full_datasets.items() %}
+               <td>{{ dataset.reads }}</td>
+            {% endofr %}
+         </tr>
+         <tr>
+            <td>Average coverage</td>
+            {% for name, dataset in full_datasets.items() %}
+               <td>{{ dataset.average_coverage }} (σ={{ dataset.sd_coverage }})</td>
+            {% endofr %}
+         </tr>
+         <tr>
+            <td>Average errors</td>
+            {% for name, dataset in full_datasets.items() %}
+            <td>{{ dataset.average_errors }} (σ={{ dataset.sd_errors }})</td>
+            {% endofr %}
+         </tr>
+         <tr>
+            <td>Total errors</td>
+            {% for name, dataset in full_datasets.items() %}
+               <td>{{ dataset.relative_errors }}</td>
+            {% endofr %}
+         </tr>
+         <tr>
+            <td>Total "A" errors </td>
+            {% for name, dataset in full_datasets.items() %}
+               <td>{{ dataset.relative_A_errors }}</td>
+            {% endofr %}
+         </tr>
       </tbody>
    </table>
 </div>

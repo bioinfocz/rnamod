@@ -154,11 +154,14 @@ class Mod:
             sequence_data = self.rname_results[rname]
             sequence_data.ensure_dataset(dataset_name, check_dataset)
 
+            full_dataset = sequence_data.full_dataset(dataset_name)
+            full_dataset.reads += 1
+
             for i, (current_base, corrent_base) in enumerate(zip(current_read, correct_read)):
                full_sequence_pointer = position+i
 
                .coverage += 1
-
+c
                if current_base == DELETED_BASE_MARK:
                 = sequence_data.position(full_sequence_pointer).dataset(dataset_name)
                   continue
@@ -205,6 +208,7 @@ class Mod:
                heading=rname,
                dataset_names=sequence_data.dataset_names,
                positions=sequence_data.positions,
+               full_datasets=sequence_data.full_datasets,
                patterns=self.patterns,
                config=config
             ))
