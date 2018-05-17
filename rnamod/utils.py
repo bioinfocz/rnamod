@@ -1,3 +1,8 @@
+class OpenDict(dict):
+   __getattr__ = dict.get
+   __setattr__ = dict.__setitem__
+   __delattr__ = dict.__delitem__
+
 def flatten(items):
    for item in items:
       if isinstance(item, list):

@@ -1,9 +1,5 @@
 from .utils import *
-
-COLORS = {
-   'stops': '239,154,154',
-   'errors': '144,202,249',
-}
+import rnamod.config as config
 
 class DatasetDetail:
    def __init__(self, check_dataset=False):
@@ -34,7 +30,7 @@ class DatasetDetail:
       self.stops_coverage_relative = relative_of(self.stops, self.stops_coverage)
 
    def rgba_stops_coverage_relative(self):
-      return 'rgba({},{})'.format(COLORS['stops'], self.stops_coverage_relative/100)
+      return 'rgba({},{})'.format(config.colors.stops, self.stops_coverage_relative/100)
 
    def rgba_errors_relative(self):
-      return 'rgba({},{})'.format(COLORS['errors'], self.errors_relative/100)
+      return 'rgba({},{})'.format(config.colors.errors, self.errors_relative/100)

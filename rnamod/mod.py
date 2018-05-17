@@ -9,11 +9,10 @@ except NameError:
 
 import jinja2
 
-import rnamod.dataset_detail
-
 from .utils import *
 from .pattern import Pattern
 from .sequence_data import SequenceData
+import rnamod.config as config
 
 SAM_QNAME = 0  # Query template NAME (String)
 SAM_FLAG  = 1  # bitwise FLAG (Int)
@@ -158,27 +157,27 @@ class Mod:
             for i, (current_base, corrent_base) in enumerate(zip(current_read, correct_read)):
                full_sequence_pointer = position+i
 
-               dataset_detail = sequence_data.position(full_sequence_pointer).dataset(dataset_name)
-               dataset_detail.coverage += 1
+               .coverage += 1
 
                if current_base == DELETED_BASE_MARK:
+                = sequence_data.position(full_sequence_pointer).dataset(dataset_name)
                   continue
 
                # full_sequence_pointer = 0: cannot happen
                # full_sequence_pointer = 1: first position but prev is last
                # full_sequence_pointer = 2: prev is first
                if full_sequence_pointer > 1:
-                  prev_dataset_detail = sequence_data.position(full_sequence_pointer-1).dataset(dataset_name)
-                  prev_dataset_detail.stops_coverage += 1
+                  prev_.stops_coverage += 1
 
                   if i == 0:
-                     prev_dataset_detail.stops += 1
+                  prev_ = sequence_data.position(full_sequence_pointer-1).dataset(dataset_name)
 
                if current_base != corrent_base:
-                  dataset_detail.errors += 1
-                  dataset_detail['errors_'+current_base] += 1
+                  ['errors_'+current_base] += 1
+                     prev_.stops += 1
 
 
+                  .errors += 1
    def run(self, experiment_files, check_files):
       for files in flatten(experiment_files):
          for file in glob.glob(files):
@@ -207,6 +206,5 @@ class Mod:
                dataset_names=sequence_data.dataset_names,
                positions=sequence_data.positions,
                patterns=self.patterns,
-               dataset_colors=rnamod.dataset_detail.COLORS,
+               config=config
             ))
-
