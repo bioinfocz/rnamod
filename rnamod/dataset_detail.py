@@ -17,7 +17,7 @@ class DatasetDetail:
       self.errors_G = 0
 
       self.stops = 0
-      self.coverage_for_stops = 0
+      self.stops_coverage = 0
 
    def __getitem__(self, key):
       return self.__dict__[key]
@@ -31,10 +31,10 @@ class DatasetDetail:
       self.errors_T_relative = relative_of(self.errors_T, self.coverage)
       self.errors_C_relative = relative_of(self.errors_C, self.coverage)
       self.errors_G_relative = relative_of(self.errors_G, self.coverage)
-      self.coverage_for_stops_relative = relative_of(self.stops, self.coverage_for_stops)
+      self.stops_coverage_relative = relative_of(self.stops, self.stops_coverage)
 
-   def rgba_coverage_for_stops_relative(self):
-      return 'rgba({},{})'.format(COLORS['stops'], self.coverage_for_stops_relative/100)
+   def rgba_stops_coverage_relative(self):
+      return 'rgba({},{})'.format(COLORS['stops'], self.stops_coverage_relative/100)
 
    def rgba_errors_relative(self):
       return 'rgba({},{})'.format(COLORS['errors'], self.errors_relative/100)

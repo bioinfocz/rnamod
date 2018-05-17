@@ -7,6 +7,7 @@
          {% for dataset_name in dataset_names %}
             <th>{{ dataset_name }}</th>
          {% endfor %}
+         <th></th>
       </thead>
       <tbody>
          {% for position in positions %}
@@ -16,18 +17,26 @@
                </td>
 
                {% for name, dataset in position.datasets.items() %}
-                  <td style="background: {{ dataset.rgba_coverage_for_stops_relative }}">
-                     {{ dataset.coverage_for_stops_relative }}
+                  <td style="background: {{ dataset.rgba_stops_coverage_relative }}">
+                     {{ dataset.stops_coverage_relative }}
                   </td>
-                  {% endfor %}
-               </tr>
+               {% endfor %}
 
-               <tr class="data__row data__row--errors">
-                  {% for name, dataset in position.datasets.items() %}
+               <td>
+                  {{ position.pvalue_stops }}
+               </td>
+            </tr>
+
+            <tr class="data__row data__row--errors">
+               {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_errors_relative }}">
                      {{ dataset.errors_relative }}
                   </td>
                {% endfor %}
+
+               <td>
+                  {{ position.pvalue_errors }}
+               </td>
             </tr>
          {% endfor %}
       </tbody>

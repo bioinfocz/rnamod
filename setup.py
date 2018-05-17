@@ -9,4 +9,5 @@ setup(
    url='https://github.com/ondra-m/rnamod',
    license='LICENSE',
    # Jinja2
+   # scipy
 )

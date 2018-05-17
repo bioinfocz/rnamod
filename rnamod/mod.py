@@ -167,7 +167,7 @@ class Mod:
                # full_sequence_pointer = 2: prev is first
                if full_sequence_pointer > 1:
                   prev_dataset_detail = sequence_data.position(full_sequence_pointer-1).dataset(dataset_name)
-                  prev_dataset_detail.coverage_for_stops += 1
+                  prev_dataset_detail.stops_coverage += 1
 
                   if i == 0:
                      prev_dataset_detail.stops += 1
