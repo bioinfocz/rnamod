@@ -10,6 +10,7 @@ class PositionData:
       self.position = position
       self.datasets = collections.OrderedDict()
       self.patterns_matched = []
+      self._is_significant = None
 
    def add_pattern_match(self, pattern):
       self.patterns_matched.append(pattern)
@@ -61,11 +62,17 @@ class PositionData:
       return False
 
    def is_significant(self):
+      if self._is_significant != None:
+         return self._is_significant
+
       if len(self.patterns_matched) > 0:
+         self._is_significant = True
          return True
 
       if self.is_stops_significant() or self.is_errors_significant():
+         self._is_significant = True
          return True
 
+      self._is_significant = False
       return False
 
