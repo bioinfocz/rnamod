@@ -5,7 +5,7 @@
 
    <script>
       document.addEventListener("DOMContentLoaded", (event) => {
-         renderChart({{ data | tojson }}, "chart_{{ uniq_id }}")
+         renderChart({{ chart_data | tojson }}, "chart_{{ uniq_id }}")
       })
    </script>
 </div>

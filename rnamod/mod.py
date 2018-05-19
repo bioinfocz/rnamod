@@ -199,61 +199,70 @@ class Mod:
          autoescape=jinja2.select_autoescape(['html'])
       )
 
+      layout_template = env.get_template('layout.html')
+      summary_template = env.get_template('summary.html')
+      chart_template = env.get_template('chart.html')
+
       mod_dir = os.path.dirname(os.path.realpath(__file__))
       script_js = os.path.join(mod_dir, 'assets', 'script.js')
       style_css = os.path.join(mod_dir, 'assets', 'style.css')
 
+      def render_in_layout(*bodies, chart_included=False):
+         return layout_template.render(
+            chart_included=chart_included,
+            body=''.join(bodies),
+            style_css=style_css,
+            script_js=script_js,
+         )
+
       for rname, sequence_data in self.rname_results.items():
          repl()
 
-         dataset_name = sequence_data.dataset_names[0]
-         chart_data = []
-         for position in sequence_data.positions:
-            dataset = position.dataset(dataset_name)
-            position_data = {
-               'base': position.base,
-               'position': position.position,
-               'coverage': dataset.coverage,
-            }
+         summary_body = summary_template.render(
+            heading=rname,
+            dataset_names=sequence_data.dataset_names,
+            positions=sequence_data.positions,
+            full_datasets=sequence_data.full_datasets,
+            patterns=self.patterns,
+            config=config
+         )
 
-            if position.is_significant():
-               position_data['errors_relative'] = dataset.errors_relative
-               position_data['stops_coverage_relative'] = dataset.stops_coverage_relative
-            else:
-               position_data['errors_relative'] = 0
-               position_data['stops_coverage_relative'] = 0
+         chart_bodies = {}
+         for dataset_name in sequence_data.dataset_names:
+            chart_data = []
+            for position in sequence_data.positions:
+               dataset = position.dataset(dataset_name)
+               position_data = {
+                  'base': position.base,
+                  'position': position.position,
+                  'coverage': dataset.coverage,
+               }
 
-            chart_data.append(position_data)
+               if position.is_significant():
+                  position_data['errors_relative'] = dataset.errors_relative
+                  position_data['stops_coverage_relative'] = dataset.stops_coverage_relative
+               else:
+                  position_data['errors_relative'] = 0
+                  position_data['stops_coverage_relative'] = 0
 
-         layout_template = env.get_template('layout.html')
-         chart_template = env.get_template('chart.html')
-         with open("outputs/chart.html", "w") as f:
-            chart_body = chart_template.render(
+               chart_data.append(position_data)
+
+            chart_bodies[dataset_name] = chart_template.render(
                rname=rname,
                dataset_name=dataset_name,
                uniq_id=str(uuid.uuid4()),
-               data=chart_data,
+               chart_data=chart_data,
             )
 
-            f.write(layout_template.render(
-               chart_included=True,
-               body=chart_body,
-            ))
+         summary_file = os.path.join(directory, 'summary_{}.html'.format(rname))
+         with open(summary_file, 'w') as f:
+            f.write(render_in_layout(summary_body))
 
-         summary_template = env.get_template('summary.html')
-         with open("outputs/summary.html", "w") as f:
-            summary_body = summary_template.render(
-               heading=rname,
-               dataset_names=sequence_data.dataset_names,
-               positions=sequence_data.positions,
-               full_datasets=sequence_data.full_datasets,
-               patterns=self.patterns,
-               config=config
-            )
+         summary_with_charts_file = os.path.join(directory, 'summary_with_charts_{}.html'.format(rname))
+         with open(summary_with_charts_file, 'w') as f:
+            f.write(render_in_layout(summary_body, *chart_bodies.values(), chart_included=True))
 
-            f.write(layout_template.render(
-               chart_included=False,
-               body=summary_body,
-               style_css=style_css,
-               script_js=script_js,
-            ))
+         for dataset_name, chart_body in chart_bodies.items():
+            chart_file = os.path.join(directory, 'chart_{}__{}.html'.format(rname, dataset_name))
+            with open(chart_file, 'w') as f:
+               f.write(render_in_layout(chart_body, chart_included=True))
