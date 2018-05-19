@@ -1,7 +1,7 @@
 <div class="summary">
    <h2>{{ heading }}</h2>
 
-   <div class="summary__legend">
+   <div class="summary-legend">
       <p>
          <span style="background: rgb({{ config.colors.stops }})"></span> Stops (coverage drops)
       </p>
@@ -17,28 +17,28 @@
       {% endfor %}
    </div>
 
-   <table class="data">
+   <table class="summary-table">
       <thead>
          <th></th>
          {% for dataset_name in dataset_names %}
             <th>{{ dataset_name }}</th>
          {% endfor %}
-         <th class="data__pvalue">p-value</th>
+         <th class="summary-table__pvalue summary-table__pvalue--header">p-value</th>
       </thead>
       <tbody>
          {% for position in positions if position.is_significant() %}
-            <tr class="data__row data__row--stops">
-               <td rowspan="2" class="data__position">
-                  {% if position.patterns_matched|length > 0 %}
-                     <div class="data__patterns">
+            <tr class="summary-table__row data__row--stops">
+               <td rowspan="2" class="summary-table__row-info">
+                  {% if position.patterns_matched | length > 0 %}
+                     <div class="summary-table__patterns">
                         {% for pattern in position.patterns_matched %}
-                           <div class="data__pattern" style="background: rgba({{ pattern.color }}, 1)">&nbsp;</div>
+                           <div class="summary-table__pattern" style="background: rgba({{ pattern.color }}, 1)">&nbsp;</div>
                         {% endfor %}
                      </div>
                   {% endif %}
 
-                  <div class="data__position-info">
-                     {{ position.position }} ({{position.base}})
+                  <div class="summary-table__position-and-base">
+                     {{ position.position }} ({{ position.base }})
                   </div>
                </td>
 
@@ -48,19 +48,19 @@
                   </td>
                {% endfor %}
 
-               <td class="data__pvalue">
+               <td class="summary-table__pvalue">
                   {{ ('%0.2f' % position.pvalue_stops) if position.pvalue_stops == position.pvalue_stops else '----' }}
                </td>
             </tr>
 
-            <tr class="data__row data__row--errors">
+            <tr class="summary-table__row data__row--errors">
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_errors_relative() }}">
                      {{ dataset.errors_relative }}%
                   </td>
                {% endfor %}
 
-               <td class="data__pvalue">
+               <td class="summary-table__pvalue">
                   {{ ('%0.2f' % position.pvalue_errors) if position.pvalue_errors == position.pvalue_errors else '----' }}
                </td>
             </tr>
@@ -70,7 +70,7 @@
 
    <h2>Overall statistics</h2>
 
-   <table class="statistics">
+   <table class="summary-statistics">
       <thead>
          <th></th>
          {% for dataset_name in dataset_names %}
@@ -111,114 +111,3 @@
       </tbody>
    </table>
 </div>
-
-<style>
-   @page {
-      size: auto;
-      margin: 0mm;
-      size: A1;
-   }
-
-   * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-   }
-
-   .data {
-      border-spacing: 0;
-      /*font-family: serif;*/
-      font-family: monospace;
-      line-height: 1.5;
-      margin-bottom: 20px;
-      max-width: 1024px;
-   }
-
-   .data td {
-      padding: 0 5px 0 10px;
-      vertical-align: top;
-   }
-
-   .data thead tr {
-      background: #f5f5f5
-   }
-
-   .data thead td {
-      padding: 5px 10px;
-   }
-
-   .data td.data__position {
-      text-align: right;
-      padding: 0;
-      background: #f5f5f5;
-      width: 88px;
-      position: relative;
-   }
-
-   .data tr.data__row--stops td {
-      border-top: 1px solid #e3e3e3;
-   }
-
-   .data__patterns {
-      display: flex;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-   }
-
-   .data__pattern {
-      width: 100%;
-      height: 100%;
-   }
-
-   .data__position-info {
-      z-index: 10;
-      position: absolute;
-      width: 100%;
-      text-align: right;
-      padding-right: 5px;
-   }
-
-   .data__pvalue {
-      width: 65px;
-      text-align: right;
-   }
-
-   .summary__legend {
-      line-height: 20px;
-      margin-left: 5px;
-   }
-
-   .summary__legend span {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      vertical-align: baseline;
-      margin-right: 2px;
-   }
-
-   .statistics {
-      border-spacing: 0;
-      /*font-family: serif;*/
-      font-family: monospace;
-      line-height: 1.5;
-      margin-bottom: 20px;
-      max-width: 1024px;
-   }
-
-   .statistics td {
-      padding-bottom: 10px;
-      text-align: center;
-   }
-
-   .statistics tr td:first-child {
-      text-align: right
-   }
-
-   .statistics {}
-
-   .statistics {}
-</style>
