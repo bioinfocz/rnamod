@@ -7,6 +7,7 @@ except NameError:
 
 import argparse
 import rnamod.mod
+import rnamod.config as config
 
 parser = argparse.ArgumentParser(description='Find RNA modifications')
 
@@ -21,9 +22,22 @@ parser.add_argument('--fasta', action='append',
                                required=True)
 parser.add_argument('--pattern', action='append',
                                  nargs='+')
+parser.add_argument('--min-coverage', default=config.min_coverage,
+                                      type=int)
+parser.add_argument('--min-pvalue', default=config.min_pvalue,
+                                      type=float)
+parser.add_argument('--min-stops-relative', default=config.min_stops_relative,
+                                      type=float)
+parser.add_argument('--min-errors-relative', default=config.min_errors_relative,
+                                      type=float)
 
 args = parser.parse_args()
 print(args)
+
+config.min_coverage = args.min_coverage
+config.min_pvalue = args.min_pvalue
+config.min_stops_relative = args.min_stops_relative
+config.min_errors_relative = args.min_errors_relative
 
 mod = rnamod.mod.Mod(args.fasta, args.pattern)
 mod.run(args.experiments, args.checks)

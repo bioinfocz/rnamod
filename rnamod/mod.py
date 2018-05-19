@@ -1,4 +1,5 @@
 import glob
+import uuid
 import os
 import re
 
@@ -200,6 +201,33 @@ class Mod:
 
       for rname, sequence_data in self.rname_results.items():
          repl()
+
+         dataset_name = sequence_data.dataset_names[0]
+         chart_data = []
+         for position in sequence_data.positions:
+            dataset = position.dataset(dataset_name)
+            chart_data.append({
+               'base': position.base,
+               'position': position.position,
+               'coverage': dataset.coverage,
+               'errors_relative': dataset.errors_relative,
+               'stops_coverage_relative': dataset.stops_coverage_relative,
+            })
+
+         layout_template = env.get_template('layout.html')
+         chart_template = env.get_template('chart.html')
+         with open("outputs/chart.html", "w") as f:
+            chart_body = chart_template.render(
+               rname=rname,
+               dataset_name=dataset_name,
+               uniq_id=str(uuid.uuid4()),
+               data=chart_data,
+            )
+
+            f.write(layout_template.render(
+               chart_included=True,
+               body=chart_body,
+            ))
 
          template = env.get_template('summary.html')
          with open("outputs/summary.html", "w") as f:

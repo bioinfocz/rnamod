@@ -1,0 +1,68 @@
+<div class="chart">
+   <h2>{{ rname }} ({{ dataset_name }})</h2>
+
+   <div id="chart_{{ uniq_id }}"></div>
+
+   <script>
+      {
+         var data = {{ data | tojson }}
+         var range = data.length / 50
+         var by = [1, 5, 10, 50, 100, 500, 1000].find(i => i > range)
+         var position = by
+         var values = [1, position]
+
+         while(position < data.length){
+           position += by
+           values.push(position)
+         }
+
+         c3.generate({
+           bindto: "#chart_{{ uniq_id }}",
+           data: {
+             json: data,
+             keys: {
+               x: 'position',
+               value: ['coverage', 'stops_coverage_relative', 'errors_relative'],
+             },
+             axes: {
+               coverage: 'y',
+               stops_coverage_relative: 'y2',
+               errors_relative: 'y2',
+             },
+             names: {
+               coverage: 'Coverage',
+               stops_coverage_relative: 'Stops (in %)',
+               errors_relative: 'Errors (in %)',
+             },
+             type: 'step',
+           },
+           axis: {
+             x: {
+               tick: {
+                 culling: false,
+                 values: values,
+               },
+               // padding: 10
+             },
+             y2: {
+               show: true,
+               min: 0,
+               padding: 0,
+               max: 100,
+               default: [0, 100]
+             },
+             y: {
+               min: 0,
+               // max: 100,
+               padding: 0
+             }
+           },
+           // subchart: {
+           //  show: true
+           // }
+         });
+
+
+      }
+   </script>
+</div>
