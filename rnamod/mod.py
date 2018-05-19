@@ -199,6 +199,10 @@ class Mod:
          autoescape=jinja2.select_autoescape(['html'])
       )
 
+      mod_dir = os.path.dirname(os.path.realpath(__file__))
+      script_js = os.path.join(mod_dir, 'assets', 'script.js')
+      style_css = os.path.join(mod_dir, 'assets', 'style.css')
+
       for rname, sequence_data in self.rname_results.items():
          repl()
 
@@ -206,13 +210,20 @@ class Mod:
          chart_data = []
          for position in sequence_data.positions:
             dataset = position.dataset(dataset_name)
-            chart_data.append({
+            position_data = {
                'base': position.base,
                'position': position.position,
                'coverage': dataset.coverage,
-               'errors_relative': dataset.errors_relative,
-               'stops_coverage_relative': dataset.stops_coverage_relative,
-            })
+            }
+
+            if position.is_significant():
+               position_data['errors_relative'] = dataset.errors_relative
+               position_data['stops_coverage_relative'] = dataset.stops_coverage_relative
+            else:
+               position_data['errors_relative'] = 0
+               position_data['stops_coverage_relative'] = 0
+
+            chart_data.append(position_data)
 
          layout_template = env.get_template('layout.html')
          chart_template = env.get_template('chart.html')
@@ -229,13 +240,20 @@ class Mod:
                body=chart_body,
             ))
 
-         template = env.get_template('summary.html')
+         summary_template = env.get_template('summary.html')
          with open("outputs/summary.html", "w") as f:
-            f.write(template.render(
+            summary_body = summary_template.render(
                heading=rname,
                dataset_names=sequence_data.dataset_names,
                positions=sequence_data.positions,
                full_datasets=sequence_data.full_datasets,
                patterns=self.patterns,
                config=config
+            )
+
+            f.write(layout_template.render(
+               chart_included=False,
+               body=summary_body,
+               style_css=style_css,
+               script_js=script_js,
             ))
