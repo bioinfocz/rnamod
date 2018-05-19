@@ -2,6 +2,7 @@ import math
 import collections
 from scipy import stats
 import rnamod.config as config
+import rnamod.utils as utils
 
 class PositionData:
    def __init__(self, base, position):
@@ -33,13 +34,8 @@ class PositionData:
             experiments_errors.append(dataset.errors_relative)
 
       if len(experiments_stops) == 1 or len(experiments_errors) == 1:
-         experiments_stops = sum(experiments_stops) / len(experiments_stops)
-         experiments_errors = sum(experiments_errors) / len(experiments_errors)
-         checks_stops = sum(checks_stops) / len(checks_stops)
-         checks_errors = sum(checks_errors) / len(checks_errors)
-
-         self.pvalue_stops = abs(experiments_stops-checks_stops) / max(experiments_stops, checks_stops)
-         self.pvalue_errors = abs(experiments_errors-checks_errors) / max(experiments_errors, checks_errors)
+         self.pvalue_stops = 1 - utils.relative_diff(experiments_stops, checks_stops)
+         self.pvalue_errors = 1 - utils.relative_diff(experiments_errors, checks_errors)
       else:
          _, self.pvalue_stops = stats.ttest_ind(experiments_stops, checks_stops)
          _, self.pvalue_errors = stats.ttest_ind(experiments_errors, checks_errors)

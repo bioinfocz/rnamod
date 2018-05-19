@@ -15,3 +15,13 @@ def relative_of(value, total):
       return 0
    else:
       return round((100.0 * value) / total, 2)
+
+def relative_diff(values1, values2):
+   values1_average = sum(values1) / len(values1)
+   values2_average = sum(values2) / len(values2)
+
+   values_max = max(values1_average, values2_average)
+   if values_max == 0:
+      return 0
+   else:
+      return abs(values1_average-values2_average) / values_max
