@@ -1,4 +1,5 @@
 data/
+outputs/
 RNAMod.egg-info/
 __pycache__/
 .vscode/
