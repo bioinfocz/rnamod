@@ -42,7 +42,7 @@ class PositionData:
          _, self.pvalue_errors = stats.ttest_ind(experiments_errors, checks_errors)
 
    def is_stops_significant(self):
-      if math.isnan(self.pvalue_stops) or self.pvalue_stops > config.min_pvalue:
+      if math.isnan(self.pvalue_stops) or self.pvalue_stops > config.max_pvalue:
          return False
 
       for _, dataset in self.datasets.items():
@@ -52,7 +52,7 @@ class PositionData:
       return False
 
    def is_errors_significant(self):
-      if math.isnan(self.pvalue_errors) or self.pvalue_errors > config.min_pvalue:
+      if math.isnan(self.pvalue_errors) or self.pvalue_errors > config.max_pvalue:
          return False
 
       for _, dataset in self.datasets.items():

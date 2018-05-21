@@ -2,7 +2,7 @@ from .utils import OpenDict
 
 min_coverage = 100
 
-min_pvalue = 0.1
+max_pvalue = 0.1
 
 min_stops_relative = 5
 
