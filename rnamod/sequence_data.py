@@ -10,11 +10,11 @@ class SequenceData:
       self.full_datasets = collections.OrderedDict()
 
       for i, base in enumerate(sequence):
-         self.positions.append(PositionData(base, i))
+         self.positions.append(PositionData(base, i+1))
 
       for pattern in patterns:
          for pos in pattern.finditer(sequence):
-            self.position(pos).add_pattern_match(pattern)
+            self.positions[pos].add_pattern_match(pattern)
 
    # Position on sequence starts from 1
    def position(self, pos):
