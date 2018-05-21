@@ -119,3 +119,7 @@ h2 {
 .chart {
    width: var(--page-width);
 }
+
+.c3-line {
+   stroke-width: 2px;
+}
