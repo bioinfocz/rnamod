@@ -3,3 +3,4 @@ outputs/
 RNAMod.egg-info/
 __pycache__/
 .vscode/
+node_modules/
