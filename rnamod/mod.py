@@ -2,11 +2,7 @@ import glob
 import uuid
 import os
 import re
-
-try:
-   from IPython import embed as repl
-except NameError:
-   pass
+import subprocess
 
 import jinja2
 
@@ -14,6 +10,11 @@ from .utils import *
 from .pattern import Pattern
 from .sequence_data import SequenceData
 import rnamod.config as config
+
+try:
+   from IPython import embed as repl
+except NameError:
+   pass
 
 SAM_QNAME = 0  # Query template NAME (String)
 SAM_FLAG  = 1  # bitwise FLAG (Int)
@@ -90,7 +91,7 @@ class Mod:
          self.rname_results[rname] = SequenceData(sequence, self.patterns)
 
    def parse_file(self, file, check_dataset=False):
-      print('File: {}'.format(file))
+      print('Parsing file: {}'.format(file))
 
       line_index = 0
       dataset_name = os.path.basename(file)
@@ -193,6 +194,20 @@ class Mod:
       for _, sequence_data in self.rname_results.items():
          sequence_data.calculate()
 
+   def export_graphic(self, file, content):
+      export_js = os.path.realpath(
+         os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            '../src/export.js'
+         )
+      )
+
+      with open(file, 'w') as f:
+         f.write(content)
+
+      subprocess.call(['node', export_js, file])
+
+
    def to_html(self, directory):
       env = jinja2.Environment(
          loader=jinja2.PackageLoader('rnamod', 'templates'),
@@ -216,8 +231,6 @@ class Mod:
          )
 
       for rname, sequence_data in self.rname_results.items():
-         repl()
-
          summary_body = summary_template.render(
             heading=rname,
             dataset_names=sequence_data.dataset_names,
@@ -255,14 +268,17 @@ class Mod:
             )
 
          summary_file = os.path.join(directory, 'summary_{}.html'.format(rname))
-         with open(summary_file, 'w') as f:
-            f.write(render_in_layout(summary_body))
+         summary_content = render_in_layout(summary_body)
+         print('Exporting {} summary'.format(rname))
+         self.export_graphic(summary_file, summary_content)
 
          summary_with_charts_file = os.path.join(directory, 'summary_with_charts_{}.html'.format(rname))
-         with open(summary_with_charts_file, 'w') as f:
-            f.write(render_in_layout(summary_body, *chart_bodies.values(), chart_included=True))
+         summary_with_charts_content = render_in_layout(summary_body, *chart_bodies.values(), chart_included=True)
+         print('Exporting {} summary with all charts'.format(rname))
+         self.export_graphic(summary_with_charts_file, summary_with_charts_content)
 
          for dataset_name, chart_body in chart_bodies.items():
             chart_file = os.path.join(directory, 'chart_{}__{}.html'.format(rname, dataset_name))
-            with open(chart_file, 'w') as f:
-               f.write(render_in_layout(chart_body, chart_included=True))
+            chart_content = render_in_layout(chart_body, chart_included=True)
+            print('Exporting {} chart from {}'.format(rname, dataset_name))
+            self.export_graphic(chart_file, chart_content)

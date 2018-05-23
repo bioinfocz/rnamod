@@ -5,9 +5,13 @@ try:
 except NameError:
    pass
 
+
+import os
+
 import argparse
 import rnamod.mod
 import rnamod.config as config
+import rnamod.utils as utils
 
 parser = argparse.ArgumentParser(description='Find RNA modifications')
 
@@ -25,21 +29,34 @@ parser.add_argument('--pattern', action='append',
 parser.add_argument('--min-coverage', default=config.min_coverage,
                                       type=int)
 parser.add_argument('--max-pvalue', default=config.max_pvalue,
-                                      type=float)
+                                    type=float)
 parser.add_argument('--min-stops-relative', default=config.min_stops_relative,
-                                      type=float)
+                                            type=float)
 parser.add_argument('--min-errors-relative', default=config.min_errors_relative,
-                                      type=float)
+                                             type=float)
+parser.add_argument('--no-html', action='store_false')
+parser.add_argument('--no-tsv', action='store_false')
+parser.add_argument('--outputs')
+
 
 args = parser.parse_args()
 print(args)
 
-config.min_coverage = args.min_coverage
-config.max_pvalue = args.max_pvalue
-config.min_stops_relative = args.min_stops_relative
-config.min_errors_relative = args.min_errors_relative
+# config.min_coverage = args.min_coverage
+# config.max_pvalue = args.max_pvalue
+# config.min_stops_relative = args.min_stops_relative
+# config.min_errors_relative = args.min_errors_relative
 
-mod = rnamod.mod.Mod(args.fasta, args.pattern)
-mod.run(args.experiments, args.checks)
+# mod = rnamod.mod.Mod(args.fasta, args.pattern)
+# mod.run(args.experiments, args.checks)
 
-mod.to_html('outputs')
+outputs = args.outputs
+
+if outputs:
+   if not os.path.isdir(outputs):
+      print('Path {} is not a directory'.format(outputs))
+      exit(1)
+else:
+   outputs = utils.ensure_directory('outputs')
+
+mod.to_html(outputs)

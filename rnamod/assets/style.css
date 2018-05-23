@@ -3,9 +3,9 @@
 }
 
 @page {
-   size: auto;
+   /* size: auto; */
    margin: 0mm;
-   size: A1;
+   /* size: A1; */
 }
 
 * {
@@ -118,8 +118,9 @@ h2 {
 
 .chart {
    width: var(--page-width);
+   page-break-inside: avoid;
 }
 
 .c3-line {
-   stroke-width: 2px;
+   stroke-width: 1.5px;
 }

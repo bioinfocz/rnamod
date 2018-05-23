@@ -1,3 +1,6 @@
+import os
+import re
+
 class OpenDict(dict):
    __getattr__ = dict.get
    __setattr__ = dict.__setitem__
@@ -25,3 +28,12 @@ def relative_diff(values1, values2):
       return 0
    else:
       return abs(values1_average-values2_average) / values_max
+
+def ensure_directory(name):
+   while os.path.exists(name):
+      name, count = re.subn(r'_(\d+)$', lambda m: '_'+str(int(m.group(1))+1), name)
+      if count == 0:
+         name += '_1'
+
+   os.makedirs(name)
+   return name
