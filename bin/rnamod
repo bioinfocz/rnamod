@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-
+import re
 import argparse
 import rnamod.mod as mod
 import rnamod.config as config
@@ -41,11 +41,19 @@ parser.add_argument('--min-stops-relative', help='Min stops relative (default: %
 parser.add_argument('--min-errors-relative', help='Minerrors relative (default: %(default)s%%)',
                                              default=config.min_errors_relative,
                                              type=float)
-parser.add_argument('--no-html', action='store_true')
+parser.add_argument('--no-graphic', action='store_true')
 parser.add_argument('--no-tsv', action='store_true')
 parser.add_argument('--outputs')
 
 args = parser.parse_args()
+
+if not args.no_graphic:
+   version = os.popen('node --version').read()
+   version_match = re.match(r'v(\d+)\.\d+', version)
+   if not version_match or int(version_match.group(1)) < 8:
+      print('Node is not installed or version is lesser than 8')
+      print('Use --no-graphic option or install latest version of node')
+      exit(1)
 
 config.min_coverage = args.min_coverage
 config.max_pvalue = args.max_pvalue
@@ -85,8 +93,8 @@ if outputs:
 else:
    outputs = utils.ensure_directory('outputs')
 
-if not args.no_html:
-   rmod.to_html(outputs)
+if not args.no_graphic:
+   rmod.to_graphic(outputs)
 
 if not args.no_tsv:
    rmod.to_tsv(outputs)

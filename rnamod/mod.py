@@ -205,7 +205,7 @@ class Mod:
 
       subprocess.call(['node', export_js, file])
 
-   def to_html(self, directory):
+   def to_graphic(self, directory):
       env = jinja2.Environment(
          loader=jinja2.PackageLoader('rnamod', 'templates'),
          autoescape=jinja2.select_autoescape(['html'])
