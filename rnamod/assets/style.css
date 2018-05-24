@@ -119,6 +119,31 @@ h2 {
 .chart {
    width: var(--page-width);
    page-break-inside: avoid;
+   margin-top: 50px;
+}
+
+.c3-bar {
+   /* stroke-width: 0.2; */
+}
+
+.c3 path, .c3 line {
+   stroke: #ccc;
+}
+
+.c3 .tick path {
+   stroke: #000;
+}
+
+.c3 .tick line {
+   stroke: #fff;
+}
+
+.c3-chart-lines .c3-circles .c3-circle {
+   display: none;
+}
+
+.c3-chart-line.c3-target {
+   opacity: 1 !important;
 }
 
 .c3-line {
