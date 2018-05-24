@@ -119,7 +119,7 @@ h2 {
 .chart {
    width: var(--page-width);
    page-break-inside: avoid;
-   margin-top: 50px;
+   /* margin-top: 50px; */
 }
 
 .c3-bar {

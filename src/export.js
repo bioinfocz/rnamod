@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-var path = require("path");
+const path = require("path");
 
 const htmlFile = path.resolve(process.argv[2]);
 const baseName = htmlFile.replace(/\.html$/, '');
