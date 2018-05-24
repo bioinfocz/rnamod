@@ -198,15 +198,12 @@ class Mod:
       export_js = os.path.realpath(
          os.path.join(
             os.path.dirname(os.path.realpath(__file__)),
-            '../src/export.js'
-         )
-      )
+            '../src/export.js'))
 
       with open(file, 'w') as f:
          f.write(content)
 
       subprocess.call(['node', export_js, file])
-
 
    def to_html(self, directory):
       env = jinja2.Environment(
@@ -231,6 +228,9 @@ class Mod:
          )
 
       for rname, sequence_data in self.rname_results.items():
+         if not sequence_data.any_datasets():
+            continue
+
          summary_body = summary_template.render(
             heading=rname,
             dataset_names=sequence_data.dataset_names,

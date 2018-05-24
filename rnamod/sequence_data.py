@@ -23,6 +23,9 @@ class SequenceData:
    def full_dataset(self, name):
       return self.full_datasets[name]
 
+   def any_datasets(self):
+      return len(self.dataset_names) > 0
+
    def ensure_dataset(self, name, check_dataset=False):
       if name in self.dataset_names:
          return
