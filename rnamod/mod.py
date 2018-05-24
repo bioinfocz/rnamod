@@ -282,3 +282,44 @@ class Mod:
             chart_content = render_in_layout(chart_body, chart_included=True)
             print('Exporting {} chart from {}'.format(rname, dataset_name))
             self.export_graphic(chart_file, chart_content)
+
+   def to_tsv(self, directory):
+      for rname, sequence_data in self.rname_results.items():
+         if not sequence_data.any_datasets():
+            continue
+
+         print('Exporting {} table'.format(rname))
+         with open(os.path.join(directory, 'table_{}.tsv'.format(rname)), 'w') as f:
+            row = []
+            row.append('Position')
+            row.append('Base')
+            row.append('Pattern matched')
+
+            for name in sequence_data.dataset_names:
+               row.append(name + ' stops (%)')
+               row.append(name + ' errors (%)')
+
+            row.append('Stops p-value')
+            row.append('Errors p-value')
+
+            f.write('\t'.join(map(str, row)))
+            f.write('\n')
+
+            for position in sequence_data.positions:
+               if not position.is_significant():
+                  continue
+
+               row = []
+               row.append(position.position)
+               row.append(position.base)
+               row.append(len(position.patterns_matched))
+
+               for name, dataset in position.datasets.items():
+                  row.append(dataset.stops_coverage_relative)
+                  row.append(dataset.errors_relative)
+
+               row.append(position.pvalue_stops)
+               row.append(position.pvalue_errors)
+
+               f.write('\t'.join(map(str, row)))
+               f.write('\n')

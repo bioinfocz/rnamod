@@ -60,3 +60,5 @@ else:
    outputs = utils.ensure_directory('outputs')
 
 mod.to_html(outputs)
+if not args.no_tsv:
+   rmod.to_tsv(outputs)
