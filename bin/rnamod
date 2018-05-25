@@ -2,7 +2,12 @@
 
 import os
 import re
+import sys
 import argparse
+
+bin_dir = os.path.join(os.path.dirname(__file__), '..')
+sys.path.append(os.path.realpath(bin_dir))
+
 import rnamod.mod as mod
 import rnamod.config as config
 import rnamod.utils as utils
