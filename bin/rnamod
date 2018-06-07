@@ -33,7 +33,8 @@ parser.add_argument('--fasta', help='Sequence files (only in fasta format)',
                                required=True)
 parser.add_argument('--pattern', help='Find pattern in sequence (format: [atcgATCG.])',
                                  action='append',
-                                 nargs='+')
+                                 nargs='+',
+                                 default=[])
 parser.add_argument('--min-coverage', help='Min coverage for each positions (default: %(default)s)',
                                       default=config.min_coverage,
                                       type=int)
@@ -46,6 +47,9 @@ parser.add_argument('--min-stops-relative', help='Min stops relative (default: %
 parser.add_argument('--min-errors-relative', help='Minerrors relative (default: %(default)s%%)',
                                              default=config.min_errors_relative,
                                              type=float)
+parser.add_argument('--boundary', help='Give boundaries for sequences (SEQUENCE FROM TO). Used for outputs not for calculations.',
+                                  nargs=3,
+                                  action='append')
 parser.add_argument('--no-graphic', action='store_true')
 parser.add_argument('--no-tsv', action='store_true')
 parser.add_argument('--outputs')
@@ -64,6 +68,10 @@ config.min_coverage = args.min_coverage
 config.max_pvalue = args.max_pvalue
 config.min_stops_relative = args.min_stops_relative
 config.min_errors_relative = args.min_errors_relative
+
+if args.boundary:
+   for (seq, sfrom, sto) in args.boundary:
+      config.boundaries.append((seq, int(sfrom), int(sto)))
 
 print('Experiments:')
 for file in utils.flatten(args.experiments):

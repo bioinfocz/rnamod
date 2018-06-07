@@ -8,6 +8,8 @@ min_stops_relative = 10
 
 min_errors_relative = 10
 
+boundaries = []
+
 colors = OpenDict()
 colors.stops = '239,154,154'
 colors.errors = '144,202,249'

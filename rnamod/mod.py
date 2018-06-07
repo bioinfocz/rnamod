@@ -1,7 +1,7 @@
-import glob
-import uuid
 import os
 import re
+import glob
+import uuid
 import subprocess
 
 import jinja2
@@ -205,6 +205,22 @@ class Mod:
 
       subprocess.call(['node', export_js, file])
 
+   def positions_with_boundaries(self, rname, sequence_data):
+      positions = sequence_data.positions
+
+      for (seq, sfrom, sto) in config.boundaries:
+         if seq.lower() != rname.lower():
+            continue
+
+         positions = []
+         for position in sequence_data.positions:
+            if position.position > sfrom and position.position < sto:
+               positions.append(position)
+
+         break
+
+      return positions
+
    def to_graphic(self, directory):
       env = jinja2.Environment(
          loader=jinja2.PackageLoader('rnamod', 'templates'),
@@ -231,10 +247,12 @@ class Mod:
          if not sequence_data.any_datasets():
             continue
 
+         positions = self.positions_with_boundaries(rname, sequence_data)
+
          summary_body = summary_template.render(
             heading=rname,
             dataset_names=sequence_data.dataset_names,
-            positions=sequence_data.positions,
+            positions=positions,
             full_datasets=sequence_data.full_datasets,
             patterns=self.patterns,
             config=config
@@ -243,7 +261,7 @@ class Mod:
          chart_bodies = {}
          for dataset_name in sequence_data.dataset_names:
             chart_data = []
-            for position in sequence_data.positions:
+            for position in positions:
                dataset = position.dataset(dataset_name)
                position_data = {
                   'base': position.base,
@@ -288,6 +306,8 @@ class Mod:
          if not sequence_data.any_datasets():
             continue
 
+         positions = self.positions_with_boundaries(rname, sequence_data)
+
          print('Exporting {} table'.format(rname))
          with open(os.path.join(directory, 'table_{}.tsv'.format(rname)), 'w') as f:
             row = []
@@ -305,7 +325,7 @@ class Mod:
             f.write('\t'.join(map(str, row)))
             f.write('\n')
 
-            for position in sequence_data.positions:
+            for position in positions:
                if not position.is_significant():
                   continue
 
