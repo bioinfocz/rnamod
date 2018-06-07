@@ -92,6 +92,11 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 `--min-errors-relative`
 - Min relative erros when position is significant
 
+`--boundary`
+- Set boundaries for sequences (SEQUENCE FROM TO)
+- For example if you want sequence HIVNL43 stop at position 9711
+- _--boundary HIVNL43 0 9711_
+
 `--no-graphic`
 - No graphic output
 - Useful if you don't have node installed
