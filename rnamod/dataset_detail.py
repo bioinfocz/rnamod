@@ -34,3 +34,13 @@ class DatasetDetail:
 
    def rgba_errors_relative(self):
       return 'rgba({},{})'.format(config.colors.errors, self.errors_relative/100)
+
+   def higher_error_base(self):
+      errors = [
+        ('A', self.errors_A_relative),
+        ('T', self.errors_T_relative),
+        ('C', self.errors_C_relative),
+        ('G', self.errors_G_relative),
+      ]
+
+      return max(errors, key=lambda x: x[1])

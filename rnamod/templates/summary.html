@@ -57,6 +57,9 @@
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_errors_relative() }}">
                      {{ dataset.errors_relative }}%
+                     <span class="summary-table__higher-error-base">
+                       ({{ dataset.higher_error_base()[0] }}: {{ dataset.higher_error_base()[1] }}%)
+                     </span>
                   </td>
                {% endfor %}
 

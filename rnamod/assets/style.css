@@ -116,6 +116,12 @@ h2 {
    text-align: right
 }
 
+.summary-table__higher-error-base {
+  color: #999;
+  font-family: monospace;
+  font-size: 90%;
+}
+
 .chart {
    width: var(--page-width);
    page-break-inside: avoid;
