@@ -8,9 +8,9 @@ min_stops_relative = 10
 
 min_errors_relative = 10
 
-significant_stops_relative = 20
+significant_stops_relative = 30
 
-significant_errors_relative = 20
+significant_errors_relative = 30
 
 boundaries = []
 

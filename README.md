@@ -92,6 +92,12 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 `--min-errors-relative`
 - Min relative erros when position is significant
 
+`--significant-stops-relative`
+- When stop is significant
+
+`--significant-errors-relative`
+- When error is significant
+
 `--boundary`
 - Set boundaries for sequences (SEQUENCE FROM TO)
 - For example if you want sequence HIVNL43 stop at position 9711

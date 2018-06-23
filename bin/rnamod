@@ -44,9 +44,15 @@ parser.add_argument('--max-pvalue', help='Max p-value for stops and errors (defa
 parser.add_argument('--min-stops-relative', help='Min stops relative (default: %(default)s%%)',
                                             default=config.min_stops_relative,
                                             type=float)
-parser.add_argument('--min-errors-relative', help='Minerrors relative (default: %(default)s%%)',
+parser.add_argument('--min-errors-relative', help='Min errors relative (default: %(default)s%%)',
                                              default=config.min_errors_relative,
                                              type=float)
+parser.add_argument('--significant-stops-relative', help='When stop is significant (default: %(default)s%%)',
+                                                    default=config.significant_stops_relative,
+                                                    type=float)
+parser.add_argument('--significant-errors-relative', help='When error is significant (default: %(default)s%%)',
+                                                    default=config.significant_errors_relative,
+                                                    type=float)
 parser.add_argument('--boundary', help='Set boundaries for sequences (SEQUENCE FROM TO). Used for outputs not for calculations.',
                                   nargs=3,
                                   action='append')
@@ -68,6 +74,8 @@ config.min_coverage = args.min_coverage
 config.max_pvalue = args.max_pvalue
 config.min_stops_relative = args.min_stops_relative
 config.min_errors_relative = args.min_errors_relative
+config.significant_stops_relative = args.significant_stops_relative
+config.significant_errors_relative = args.significant_errors_relative
 
 if args.boundary:
    for (seq, sfrom, sto) in args.boundary:
@@ -93,6 +101,8 @@ print('Min coverage: {}'.format(config.min_coverage))
 print('Max p-value: {}'.format(config.max_pvalue))
 print('Min relative stops: {}'.format(config.min_stops_relative))
 print('Min relative errors: {}'.format(config.min_errors_relative))
+print('Significant stops: {}'.format(config.significant_stops_relative))
+print('Significant errors: {}'.format(config.significant_errors_relative))
 print('')
 
 rmod = mod.Mod(args.fasta, args.pattern)
