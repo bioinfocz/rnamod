@@ -155,3 +155,7 @@ h2 {
 .c3-line {
    stroke-width: 1.5px;
 }
+
+.nowrap {
+   white-space: nowrap;
+}

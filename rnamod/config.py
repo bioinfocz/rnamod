@@ -21,4 +21,4 @@ boundaries = []
 colors = OpenDict()
 colors.stops = '239,154,154'
 colors.errors = '144,202,249'
-colors.ins_del = '255,171,145'
+colors.ins_del = '230,238,156'

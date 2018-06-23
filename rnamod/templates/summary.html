@@ -71,8 +71,8 @@
             <tr class="summary-table__row data__row--ins-del">
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_ins_del() }}">
-                     I: {{ dataset.insertions_relative }}%,
-                     D: {{ dataset.deletions_relative }}%
+                     <span class="nowrap">I: {{ dataset.insertions_relative }}%,</span>
+                     <span class="nowrap">D: {{ dataset.deletions_relative }}%</span>
                   </td>
                {% endfor %}
 
