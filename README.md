@@ -98,6 +98,12 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 `--significant-errors-relative`
 - When error is significant
 
+`--significant-insertion-relative`
+- Significant insertion
+
+`--significant-deletion-relative`
+- Significant deletion
+
 `--boundary`
 - Set boundaries for sequences (SEQUENCE FROM TO)
 - For example if you want sequence HIVNL43 stop at position 9711

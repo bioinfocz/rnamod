@@ -126,6 +126,8 @@ class Mod:
             correct_read = ''
             seq_pointer = 0
             full_sequence_pointer = position-1
+            insertion_positions = []
+            deletion_positions = []
 
             for (count, op) in cigar:
                count = int(count)
@@ -143,10 +145,12 @@ class Mod:
                   full_sequence_pointer += count
                elif op == CIGAR_INSERTION:
                   seq_pointer += count
+                  insertion_positions.append(full_sequence_pointer+1)
                elif op == CIGAR_DELETION:
                   current_read += (DELETED_BASE_MARK * count)
                   correct_read += self.full_sequences[rname][full_sequence_pointer:full_sequence_pointer+count]
                   full_sequence_pointer += count
+                  deletion_positions.append(full_sequence_pointer+1)
                else:
                   raise ValueError('Invalid CIGAR op: {}'.format(op))
 
@@ -164,6 +168,12 @@ class Mod:
 
                dataset_detail = sequence_data.position(full_sequence_pointer).dataset(dataset_name)
                dataset_detail.coverage += 1
+
+               if full_sequence_pointer in insertion_positions:
+                  dataset_detail.insertions += 1
+
+               if full_sequence_pointer in deletion_positions:
+                  dataset_detail.deletions += 1
 
                if current_base == DELETED_BASE_MARK:
                   continue

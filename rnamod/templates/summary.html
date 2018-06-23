@@ -28,7 +28,7 @@
       <tbody>
          {% for position in positions if position.is_significant() %}
             <tr class="summary-table__row data__row--stops">
-               <td rowspan="2" class="summary-table__row-info">
+               <td rowspan="3" class="summary-table__row-info">
                   {% if position.patterns_matched | length > 0 %}
                      <div class="summary-table__patterns">
                         {% for pattern in position.patterns_matched %}
@@ -66,6 +66,17 @@
                <td class="summary-table__pvalue">
                   {{ ('%0.2f' % position.pvalue_errors) if position.pvalue_errors == position.pvalue_errors else '----' }}
                </td>
+            </tr>
+
+            <tr class="summary-table__row data__row--ins-del">
+               {% for name, dataset in position.datasets.items() %}
+                  <td style="background: {{ dataset.rgba_ins_del() }}">
+                     I: {{ dataset.insertions_relative }}%,
+                     D: {{ dataset.deletions_relative }}%
+                  </td>
+               {% endfor %}
+
+               <td class="summary-table__pvalue">
             </tr>
          {% endfor %}
       </tbody>

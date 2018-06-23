@@ -51,8 +51,14 @@ parser.add_argument('--significant-stops-relative', help='When stop is significa
                                                     default=config.significant_stops_relative,
                                                     type=float)
 parser.add_argument('--significant-errors-relative', help='When error is significant (default: %(default)s%%)',
-                                                    default=config.significant_errors_relative,
-                                                    type=float)
+                                                     default=config.significant_errors_relative,
+                                                     type=float)
+parser.add_argument('--significant-insertion-relative', help='Significant insertion (default: %(default)s%%)',
+                                                        default=config.significant_insertion_relative,
+                                                        type=float)
+parser.add_argument('--significant-deletion-relative', help='Significant deletion (default: %(default)s%%)',
+                                                       default=config.significant_deletion_relative,
+                                                       type=float)
 parser.add_argument('--boundary', help='Set boundaries for sequences (SEQUENCE FROM TO). Used for outputs not for calculations.',
                                   nargs=3,
                                   action='append')
@@ -76,6 +82,8 @@ config.min_stops_relative = args.min_stops_relative
 config.min_errors_relative = args.min_errors_relative
 config.significant_stops_relative = args.significant_stops_relative
 config.significant_errors_relative = args.significant_errors_relative
+config.significant_insertion_relative = args.significant_insertion_relative
+config.significant_deletion_relative = args.significant_deletion_relative
 
 if args.boundary:
    for (seq, sfrom, sto) in args.boundary:
@@ -103,6 +111,8 @@ print('Min relative stops: {}'.format(config.min_stops_relative))
 print('Min relative errors: {}'.format(config.min_errors_relative))
 print('Significant stops: {}'.format(config.significant_stops_relative))
 print('Significant errors: {}'.format(config.significant_errors_relative))
+print('Significant insertion: {}'.format(config.significant_insertion_relative))
+print('Significant deletion: {}'.format(config.significant_deletion_relative))
 print('')
 
 rmod = mod.Mod(args.fasta, args.pattern)

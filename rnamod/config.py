@@ -12,8 +12,13 @@ significant_stops_relative = 30
 
 significant_errors_relative = 30
 
+significant_insertion_relative = 10
+
+significant_deletion_relative = 10
+
 boundaries = []
 
 colors = OpenDict()
 colors.stops = '239,154,154'
 colors.errors = '144,202,249'
+colors.ins_del = '255,171,145'

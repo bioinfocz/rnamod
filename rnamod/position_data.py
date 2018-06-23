@@ -75,6 +75,14 @@ class PositionData:
 
       return False
 
+
+   def ins_del_significant(self):
+      for _, dataset in self.datasets.items():
+         if dataset.insertions_relative >= config.significant_insertion_relative or dataset.deletions_relative >= config.significant_deletion_relative:
+            return True
+
+      return False
+
    def is_significant(self):
       if self._is_significant != None:
          return self._is_significant
@@ -83,7 +91,7 @@ class PositionData:
          self._is_significant = True
          return True
 
-      if self.is_stops_significant() or self.is_errors_significant():
+      if self.is_stops_significant() or self.is_errors_significant() or self.ins_del_significant():
          self._is_significant = True
          return True
 
