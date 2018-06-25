@@ -122,6 +122,11 @@ h2 {
   font-size: 90%;
 }
 
+/* .data__row--ins-del span {
+   display: inline-block;
+   min-width: 70px;
+} */
+
 .chart {
    width: var(--page-width);
    page-break-inside: avoid;

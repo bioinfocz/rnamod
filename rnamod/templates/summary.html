@@ -10,6 +10,10 @@
          <span style="background: rgb({{ config.colors.errors }})"></span> Errors (base mismatch)
       </p>
 
+      <p>
+         <span style="background: rgb({{ config.colors.ins_del }})"></span> Insertion, deletion
+      </p>
+
       {% for pattern in patterns %}
          <p>
             <span style="background: rgb({{ pattern.color }})"></span> Pattern: "{{ pattern.pattern }}"
@@ -44,7 +48,7 @@
 
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_stops_coverage_relative() }}">
-                     {{ dataset.stops_coverage_relative }}%
+                     {{ dataset.stops_coverage_relative | int }}%
                   </td>
                {% endfor %}
 
@@ -56,9 +60,9 @@
             <tr class="summary-table__row data__row--errors">
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_errors_relative() }}">
-                     {{ dataset.errors_relative }}%
+                     {{ dataset.errors_relative | int }}%
                      <span class="summary-table__higher-error-base">
-                       ({{ dataset.higher_error_base()[0] }}: {{ dataset.higher_error_base()[1] }}%)
+                       ({{ dataset.higher_error_base()[0] }}: {{ dataset.higher_error_base()[1] | int }}%)
                      </span>
                   </td>
                {% endfor %}
@@ -71,8 +75,8 @@
             <tr class="summary-table__row data__row--ins-del">
                {% for name, dataset in position.datasets.items() %}
                   <td style="background: {{ dataset.rgba_ins_del() }}">
-                     <span class="nowrap">I: {{ dataset.insertions_relative }}%,</span>
-                     <span class="nowrap">D: {{ dataset.deletions_relative }}%</span>
+                     <span class="nowrap">I: {{ dataset.insertions_relative | int }}%,</span>
+                     <span class="nowrap">D: {{ dataset.deletions_relative | int }}%</span>
                   </td>
                {% endfor %}
 
