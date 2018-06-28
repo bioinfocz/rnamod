@@ -32,7 +32,7 @@
       <tbody>
          {% for position in positions if position.is_significant() %}
             <tr class="summary-table__row data__row--stops">
-               <td rowspan="3" class="summary-table__row-info">
+               <td rowspan="4" class="summary-table__row-info">
                   {% if position.patterns_matched | length > 0 %}
                      <div class="summary-table__patterns">
                         {% for pattern in position.patterns_matched %}
@@ -77,6 +77,16 @@
                   <td style="background: {{ dataset.rgba_ins_del() }}">
                      <span class="nowrap">I: {{ dataset.insertions_relative | int }}%,</span>
                      <span class="nowrap">D: {{ dataset.deletions_relative | int }}%</span>
+                  </td>
+               {% endfor %}
+
+               <td class="summary-table__pvalue">
+            </tr>
+
+            <tr class="summary-table__row data__row--coverage">
+               {% for name, dataset in position.datasets.items() %}
+                  <td>
+                     ({{ dataset.coverage }})
                   </td>
                {% endfor %}
 
