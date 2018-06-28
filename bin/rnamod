@@ -59,6 +59,10 @@ parser.add_argument('--significant-insertion-relative', help='Significant insert
 parser.add_argument('--significant-deletion-relative', help='Significant deletion (default: %(default)s%%)',
                                                        default=config.significant_deletion_relative,
                                                        type=float)
+parser.add_argument('--max-pattern-missmatch', help='Maximum missmatch allowed in pattern matching (default: %(default)s%%)',
+                                               default=config.max_pattern_missmatch,
+                                               type=float)
+
 parser.add_argument('--boundary', help='Set boundaries for sequences (SEQUENCE FROM TO). Used for outputs not for calculations.',
                                   nargs=3,
                                   action='append')
@@ -84,6 +88,7 @@ config.significant_stops_relative = args.significant_stops_relative
 config.significant_errors_relative = args.significant_errors_relative
 config.significant_insertion_relative = args.significant_insertion_relative
 config.significant_deletion_relative = args.significant_deletion_relative
+config.max_pattern_missmatch = args.max_pattern_missmatch
 
 if args.boundary:
    for (seq, sfrom, sto) in args.boundary:
@@ -113,6 +118,7 @@ print('Significant stops: {}'.format(config.significant_stops_relative))
 print('Significant errors: {}'.format(config.significant_errors_relative))
 print('Significant insertion: {}'.format(config.significant_insertion_relative))
 print('Significant deletion: {}'.format(config.significant_deletion_relative))
+print('Max pattern missmatch: {}'.format(config.max_pattern_missmatch))
 print('')
 
 rmod = mod.Mod(args.fasta, args.pattern)

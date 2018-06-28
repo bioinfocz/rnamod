@@ -104,6 +104,9 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 `--significant-deletion-relative`
 - Significant deletion
 
+`--max-pattern-missmatch`
+- Maximum missmatch allowed in pattern matching
+
 `--boundary`
 - Set boundaries for sequences (SEQUENCE FROM TO)
 - For example if you want sequence HIVNL43 stop at position 9711

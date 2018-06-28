@@ -18,6 +18,8 @@ significant_deletion_relative = 10
 
 boundaries = []
 
+max_pattern_missmatch = 1
+
 colors = OpenDict()
 colors.stops = '239,154,154'
 colors.errors = '144,202,249'

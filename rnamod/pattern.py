@@ -1,4 +1,5 @@
 import re
+import rnamod.config as config
 
 COLORS = [
   '197,225,165',
@@ -39,8 +40,39 @@ class Pattern:
       for match in re.finditer(r'[ATCG]', pattern):
          self.match_positions.append(match.start(0))
 
-   def finditer(self, sequence):
-      for match_sequence in re.finditer(self.pattern, sequence, flags=re.IGNORECASE):
-         for match_position in self.match_positions:
-            yield match_sequence.start(0)+match_position
+   def pattern_matched(self, sequence, sequence_index):
+      pattern_index = 0
+      missmatch = 0
 
+      while pattern_index < len(self.pattern):
+         if sequence_index >= len(sequence):
+            return False
+
+         sequence_base = sequence[sequence_index]
+         pattern_base = self.pattern[pattern_index]
+
+         if pattern_base == '.':
+            # On sequence can be anything
+            pass
+         elif (pattern_index in self.match_positions) and sequence_base != pattern_base:
+            # Big letter must match
+            return False
+         elif sequence_base.lower() == pattern_base.lower():
+            # Bases are equal
+            pass
+         else:
+            if missmatch >= config.max_pattern_missmatch:
+               return False
+            else:
+               missmatch += 1
+
+         pattern_index += 1
+         sequence_index += 1
+
+      return True
+
+   def finditer(self, sequence):
+      for sequence_index, _ in enumerate(sequence):
+         if self.pattern_matched(sequence, sequence_index):
+            for match_position in self.match_positions:
+               yield sequence_index+match_position
