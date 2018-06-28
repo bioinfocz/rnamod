@@ -19,14 +19,11 @@ except NameError:
 
 parser = argparse.ArgumentParser(description='Find RNA modifications')
 
-parser.add_argument('--experiments', help='Experiment sam files',
-                                     action='append',
-                                     nargs='+',
-                                     required=True)
-parser.add_argument('--checks', help='Controll/check sam files',
-                                action='append',
-                                nargs='+',
-                                required=True)
+parser.add_argument('--sam', help='EXPERIMENT CHECK file',
+                             action='append',
+                             nargs=2,
+                             metavar=('EXPERIMENT.sam', 'CHECK.sam'),
+                             required=True)
 parser.add_argument('--fasta', help='Sequence files (only in fasta format)',
                                action='append',
                                nargs='+',
@@ -94,13 +91,9 @@ if args.boundary:
    for (seq, sfrom, sto) in args.boundary:
       config.boundaries.append((seq, int(sfrom), int(sto)))
 
-print('Experiments:')
-for file in utils.flatten(args.experiments):
-   print('  - {}'.format(file))
-
-print('Checks:')
-for file in utils.flatten(args.checks):
-   print('  - {}'.format(file))
+print('Sam files:')
+for (experiment, check) in args.sam:
+   print('  - {} - {}'.format(experiment, check))
 
 print('Fasta:')
 for file in utils.flatten(args.fasta):
@@ -122,7 +115,7 @@ print('Max pattern missmatch: {}'.format(config.max_pattern_missmatch))
 print('')
 
 rmod = mod.Mod(args.fasta, args.pattern)
-rmod.run(args.experiments, args.checks)
+rmod.run(args.sam)
 
 outputs = args.outputs
 if outputs:
@@ -140,3 +133,5 @@ if not args.no_tsv:
 
 print('')
 print('Outputs are stored in "{}"'.format(outputs))
+
+# repl()

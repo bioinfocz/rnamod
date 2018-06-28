@@ -12,9 +12,9 @@ significant_stops_relative = 30
 
 significant_errors_relative = 30
 
-significant_insertion_relative = 10
+significant_insertion_relative = 30
 
-significant_deletion_relative = 10
+significant_deletion_relative = 30
 
 boundaries = []
 

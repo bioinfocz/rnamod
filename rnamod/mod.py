@@ -192,14 +192,10 @@ class Mod:
                   dataset_detail.errors += 1
                   dataset_detail['errors_'+current_base] += 1
 
-   def run(self, experiment_files, check_files):
-      for files in flatten(experiment_files):
-         for file in glob.glob(files):
-            self.parse_file(file)
-
-      for files in flatten(check_files):
-         for file in glob.glob(files):
-            self.parse_file(file, check_dataset=True)
+   def run(self, sam):
+      for (experiment, check) in sam:
+         self.parse_file(experiment)
+         self.parse_file(check, check_dataset=True)
 
       for _, sequence_data in self.rname_results.items():
          sequence_data.calculate()

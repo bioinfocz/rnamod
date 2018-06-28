@@ -60,13 +60,9 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 
 #### Required options
 
-`--experiments`
-- Your experiments
-- Require one or multiple sam files
-
-`--checks`
-- Files wich will be compared to experiments
-- Require one or multiple sam files
+`--sam EXPERIMENT CHECK`
+- EXPERIMENT: Your experiment
+- CHECK: Files wich will be compared to experiments
 
 `--fasta`
 - Sequence files
