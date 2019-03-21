@@ -3,6 +3,7 @@ import re
 import glob
 import uuid
 import subprocess
+import collections
 
 import jinja2
 
@@ -264,7 +265,7 @@ class Mod:
             config=config
          )
 
-         chart_bodies = {}
+         chart_bodies = collections.OrderedDict()
          for dataset_name in sequence_data.dataset_names:
             chart_data = []
             for position in positions:
