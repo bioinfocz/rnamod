@@ -13,10 +13,6 @@ If you want only TSV (not graphic output) you can skip 2-4 steps.
 
 1. Clone the repository
 
-```bash
-git clone git@github.com:ondra-m/rnamod.git
-```
-
 2. Make sure that your version of nodejs is higher than 8
 
 ```bash
