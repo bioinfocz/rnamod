@@ -116,6 +116,17 @@ bin/rnamod --experiment exp1.sam exp2.sam \
 
 ## Credits
 
-- Ondřej Moravčík
-- Jan Pačes
-- Institute of Molecular Genetics of the ASCR
+- Ondřej Moravčík ([@ondra-m](https://github.com/ondra-m))
+- Jan Pačes ([@hpaces](https://github.com/hpaces))
+
+---
+
+<a href="https://www.img.cas.cz/en">
+  <img src="https://github.com/bioinfocz/rnamod/raw/master/assets/img.png" width=100>
+</a>
+
+---
+
+<a href="https://www.elixir-czech.cz">
+  <img src="https://github.com/bioinfocz/rnamod/raw/master/assets/elixir.png" width=100>
+</a>
